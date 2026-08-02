@@ -1,0 +1,175 @@
+{
+  "personal": {
+    "nameEn": "Alex Rivera",
+    "nameAr": "أليكس ريفيرا",
+    "titleEn": "Full Stack Engineer & UI Designer",
+    "titleAr": "مهندس برمجيات ومصمم واجهات مستخدم",
+    "avatar": "/avatar.jpg",
+    "bioEn": "I build responsive, high-performance web applications with a focus on clean code and interactive, modern user experiences. With over 5 years of industry experience, I bridge the gap between design and engineering.",
+    "bioAr": "أقوم ببناء تطبيقات ويب متجاوبة وعالية الأداء مع التركيز على الكود النظيف وتجارب المستخدم التفاعلية والحديثة. مع أكثر من 5 سنوات من الخبرة في المجال، أربط الفجوة بين التصميم والهندسة.",
+    "email": "alex.rivera@example.com",
+    "phone": "+1 (555) 019-2834",
+    "locationEn": "San Francisco, CA",
+    "locationAr": "سان فرانسيسكو، كاليفورنيا",
+    "resumeUrl": "#",
+    "socialLinks": {
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com",
+      "dribbble": "https://dribbble.com"
+    }
+  },
+  "about": {
+    "fullBioEn": "Hello! I'm Alex, a software engineer passionate about creating beautiful and functional digital products. My journey in web development started back in 2018 when I decided to build a custom website for my photography hobby. Fast-forward to today, and I've had the privilege of working at a fast-growing startup, a design agency, and as a freelance developer.\n\nI focus on writing semantic, search-optimized code, crafting seamless micro-animations, and building highly scalable architectures. Outside of coding, I love hiking, playing guitar, and photographing landscapes.",
+    "fullBioAr": "مرحباً! أنا أليكس، مهندس برمجيات شغوف بإنشاء منتجات رقمية جميلة وعملية. بدأت رحلتي في تطوير الويب في عام 2018 عندما قررت إنشاء موقع ويب مخصص لهواية التصوير الفوتوغرافي الخاصة بي. بالانتقال سريعًا إلى اليوم، حظيت بامتياز العمل في شركة ناشئة سريعة النمو، ووكالة تصميم، وكمطور مستقل.\n\nأركز على كتابة كود نظيف ومتوافق مع محركات البحث، وصياغة رسوم متحركة دقيقة وسلسة، وبناء بنيات برمجية قابلة للتطوير بشكل كبير. خارج نطاق البرمجة، أحب التنزه ولعب الجيتار وتصوير المناظر الطبيعية.",
+    "experienceYears": 5,
+    "projectsCompleted": 42,
+    "rating": "4.9"
+  },
+  "skills": [
+    { "id": "s1", "nameEn": "React & Next.js", "nameAr": "رياكت ونكست جي إس", "category": "Frontend", "percentage": 95 },
+    { "id": "s2", "nameEn": "TypeScript / JavaScript", "nameAr": "تايب سكريبت / جافا سكريبت", "category": "Frontend", "percentage": 90 },
+    { "id": "s3", "nameEn": "HTML5 & CSS3 (Grid/Flexbox)", "nameAr": "إتش تي إم إل 5 وسي إس إس 3", "category": "Frontend", "percentage": 95 },
+    { "id": "s4", "nameEn": "Node.js & Express", "nameAr": "نود جي إس وإكسبريس", "category": "Backend", "percentage": 85 },
+    { "id": "s5", "nameEn": "PostgreSQL & MongoDB", "nameAr": "بوستجرس كيو إل ومونجو دي بي", "category": "Backend", "percentage": 80 },
+    { "id": "s6", "nameEn": "RESTful APIs & GraphQL", "nameAr": "واجهات البرمجة ريست وجراف كيو إل", "category": "Backend", "percentage": 85 },
+    { "id": "s7", "nameEn": "Figma (UI/UX Design)", "nameAr": "فيجما (تصميم واجهات المستخدم)", "category": "Design", "percentage": 75 },
+    { "id": "s8", "nameEn": "Git & GitHub CI/CD", "nameAr": "جيت وجيت هاب للتطوير والدمج المستمر", "category": "Others", "percentage": 90 }
+  ],
+  "experience": [
+    {
+      "id": "exp1",
+      "roleEn": "Senior Frontend Developer",
+      "roleAr": "مطور واجهات أمامية أول",
+      "companyEn": "PixelCraft Studio",
+      "companyAr": "أستوديو بكسل كرافت",
+      "durationEn": "2022 - Present",
+      "durationAr": "2022 - الآن",
+      "descriptionEn": "Led a team of 4 developers to redesign and implement a SaaS platform, boosting page load speeds by 40% and user engagement by 25%. Built reusable component library using React and Vanilla CSS.",
+      "descriptionAr": "قدت فريقًا مكونًا من 4 مطورين لإعادة تصميم وتنفيذ منصة SaaS، مما أدى إلى تسريع تحميل الصفحات بنسبة 40% وزيادة تفاعل المستخدمين بنسبة 25%. قمت ببناء مكتبة مكونات قابلة لإعادة الاستخدام باستخدام React و CSS."
+    },
+    {
+      "id": "exp2",
+      "roleEn": "Web Engineer",
+      "roleAr": "مهندس ويب",
+      "companyEn": "Apex Tech Solutions",
+      "companyAr": "أبيكس للحلول التقنية",
+      "durationEn": "2020 - 2022",
+      "durationAr": "2020 - 2022",
+      "descriptionEn": "Developed and maintained full-stack web applications. Collaborated closely with designers to implement pixel-perfect user interfaces, integrating Stripe payments and Auth0 authentication.",
+      "descriptionAr": "تطوير وصيانة تطبيقات الويب بالكامل. تعاونت بشكل وثيق مع المصممين لتنفيذ واجهات مستخدم متناسقة بكسل بكسل، مع دمج مدفوعات Stripe والمصادقة عبر Auth0."
+    }
+  ],
+  "education": [
+    {
+      "id": "edu1",
+      "degreeEn": "B.S. in Computer Science",
+      "degreeAr": "بكالوريوس في علوم الحاسوب",
+      "schoolEn": "University of California, Berkeley",
+      "schoolAr": "جامعة كاليفورنيا، بيركلي",
+      "durationEn": "2016 - 2020",
+      "durationAr": "2016 - 2020",
+      "descriptionEn": "Specialized in Software Engineering and Human-Computer Interaction. Graduated with honors.",
+      "descriptionAr": "تخصص في هندسة البرمجيات والتفاعل بين الإنسان والحاسوب. تخرج مع مرتبة الشرف."
+    }
+  ],
+  "services": [
+    {
+      "id": "ser1",
+      "titleEn": "Frontend Engineering",
+      "titleAr": "هندسة الواجهات الأمامية",
+      "descriptionEn": "Custom, interactive, and ultra-fast client-side applications built with modern frameworks and highly structured CSS modules.",
+      "descriptionAr": "تطبيقات مخصصة وتفاعلية وفائقة السرعة مبنية باستخدام الأطر الحديثة وأنماط CSS جيدة التنظيم.",
+      "price": "$1,200",
+      "icon": "Code"
+    },
+    {
+      "id": "ser2",
+      "titleEn": "Full-Stack SaaS Development",
+      "titleAr": "تطوير تطبيقات SaaS الكاملة",
+      "descriptionEn": "End-to-end development of cloud applications, including database schema design, secure API development, and auth integration.",
+      "descriptionAr": "التطوير الشامل للتطبيقات السحابية، بما في ذلك تصميم قواعد البيانات، وتطوير واجهات البرمجة الآمنة، ودمج المصادقة.",
+      "price": "$3,500",
+      "icon": "Database"
+    },
+    {
+      "id": "ser3",
+      "titleEn": "UI/UX & Interactive Prototyping",
+      "titleAr": "تصميم واجهات المستخدم والنماذج التفاعلية",
+      "descriptionEn": "Designing sleek, user-centered digital interfaces in Figma, backed by usability research and interactive micro-animations.",
+      "descriptionAr": "تصميم واجهات رقمية أنيقة تركز على المستخدم في Figma، مدعومة بأبحاث سهولة الاستخدام والرسوم المتحركة الدقيقة والتفاعلية.",
+      "price": "$800",
+      "icon": "Palette"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj1",
+      "titleEn": "E-Commerce Analytics Platform",
+      "titleAr": "منصة تحليلات التجارة الإلكترونية",
+      "descriptionEn": "A real-time metrics dashboard for e-commerce store owners, featuring interactive SVG charts, customizable reports, and seamless CSV exports.",
+      "descriptionAr": "لوحة تحكم للمقاييس في الوقت الفعلي لأصحاب متاجر التجارة الإلكترونية، تتميز بمخططات SVG التفاعلية والتقارير القابلة للتخصيص وتصدير ملفات CSV بسلاسة.",
+      "categoryEn": "Full Stack",
+      "categoryAr": "تطوير شامل",
+      "image": "",
+      "link": "https://github.com",
+      "tags": ["React", "Node.js", "Chart.js", "MongoDB"]
+    },
+    {
+      "id": "proj2",
+      "titleEn": "Glassmorphic Task Manager",
+      "titleAr": "مدير مهام شفاف",
+      "descriptionEn": "A drag-and-drop kanban style task manager built with custom dark mode themes, local state caching, and keyboard shortcuts.",
+      "descriptionAr": "مدير مهام بأسلوب كانبان يدعم السحب والإفلات، مبني بسمات داكنة وشفافة مخصصة، وتخزين مؤقت للحالة المحلية، واختصارات لوحة المفاتيح.",
+      "categoryEn": "Frontend",
+      "categoryAr": "واجهة أمامية",
+      "image": "",
+      "link": "https://github.com",
+      "tags": ["React", "HTML5", "CSS Grid", "DragDrop"]
+    },
+    {
+      "id": "proj3",
+      "titleEn": "Photographer Portfolio",
+      "titleAr": "معرض أعمال مصور فوتوغرافي",
+      "descriptionEn": "A highly visual portfolio designed for landscape photographers, complete with lazy-loaded images, canvas transitions, and an elegant admin portal.",
+      "descriptionAr": "معرض أعمال مرئي للغاية مصمم لمصوري المناظر الطبيعية، مكتمل بصور بطيئة التحميل، وانتقالات جميلة، وبوابة إدارية أنيقة.",
+      "categoryEn": "Design",
+      "categoryAr": "تصميم ويب",
+      "image": "",
+      "link": "https://github.com",
+      "tags": ["Vite", "Vanilla CSS", "UI/UX"]
+    }
+  ],
+  "blog": [
+    {
+      "id": "blog1",
+      "titleEn": "Mastering CSS Grid and Subgrid in Modern Design",
+      "titleAr": "إتقان تخطيطات CSS Grid و Subgrid في التصميم الحديث",
+      "categoryEn": "CSS",
+      "categoryAr": "تنسيق الويب",
+      "date": "2026-06-15",
+      "readTimeEn": "5 min read",
+      "readTimeAr": "قراءة في 5 دقائق",
+      "contentEn": "CSS Grid has revolutionized web layouts, but Subgrid takes it to the next level. In this post, we explore how to build perfectly aligned card grids, handle nested alignments without hacking margins, and support older browsers gracefully.\n\nSubgrid allows child elements to inherit the grid tracks defined on their parents. This means cards in a grid can have headers, contents, and footers that align perfectly with each other, regardless of their content size. It is now widely supported in all major evergreen browsers!",
+      "contentAr": "أحدثت شبكة CSS Grid ثورة في تخطيطات الويب، لكن Subgrid ينقلها إلى المستوى التالي. في هذا المنشور، نستكشف كيفية بناء شبكات بطاقات متناسقة تمامًا، ومعالجة المحاذاة المتداخلة دون الحاجة إلى تعديل الهوامش، ودعم المتصفحات القديمة بسلاسة.\n\nتسمح شبكة Subgrid للعناصر الفرعية بوراثة مسارات الشبكة المحددة على آبائها. هذا يعني أن البطاقات الموجودة في الشبكة يمكن أن تحتوي على رؤوس ومحتويات وتذييلات تتوافق تمامًا مع بعضها البعض، بغض النظر عن حجم محتواها. إنه مدعوم الآن على نطاق واسع في جميع المتصفحات الحديثة!"
+    },
+    {
+      "id": "blog2",
+      "titleEn": "Why Base64 is Great for No-Backend Static Websites",
+      "titleAr": "لماذا تعد صيغة Base64 ممتازة لمواقع الويب بدون خادم خلفي مستقل",
+      "categoryEn": "Web Development",
+      "categoryAr": "تطوير الويب",
+      "date": "2026-07-10",
+      "readTimeEn": "4 min read",
+      "readTimeAr": "قراءة في 4 دقائق",
+      "contentEn": "When building simple static websites with admin dashboards, hosting images on a traditional cloud storage server (like AWS S3) can add complexity, cost, and security headaches. \n\nBy leveraging HTML5 FileReader API, we can convert user-uploaded images into Base64 strings. When combined with database, we get a self-contained, backend-free database. Although Base64 increases the file size by roughly 33%, for standard compressed avatars and thumbnails, it provides a seamless user experience.",
+      "contentAr": "عند إنشاء مواقع ويب ثابتة بسيطة مع لوحات تحكم إدارية، فإن استضافة الصور على خادم تخزين سحابي تقليدي (مثل AWS S3) يمكن أن يضيف تعقيدًا وتكلفة ومشاكل أمنية.\n\nمن خلال الاستفادة من واجهة HTML5 FileReader API، يمكننا تحويل الصور التي تم تحميلها بواسطة المستخدم إلى سلاسل Base64. عند دمجها مع قاعدة بيانات، نحصل على قاعدة بيانات قائمة بذاتها بدون الحاجة لإعداد خوادم مستقلة. على الرغم من أن Base64 يزيد من حجم الملف بنسبة 33٪ تقريبًا، إلا أنه يوفر تجربة مستخدم سلسة للصور المصغرة والأفاتار المضغوطة."
+    }
+  ],
+  "messages": [],
+  "settings": {
+    "passcodeHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    "theme": "dark",
+    "language": "en"
+  }
+}
