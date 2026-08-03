@@ -89,10 +89,10 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
         {/* Desktop Navigation */}
         <nav style={{ display: 'flex', gap: '32px', alignItems: 'center' }} className="desktop-only-nav">
           <a href="#about" style={{ fontWeight: 500 }}>{t.navAbout}</a>
-          <a href="#experience" style={{ fontWeight: 500 }}>{t.navExperience}</a>
-          <a href="#services" style={{ fontWeight: 500 }}>{t.navServices}</a>
+          {data.settings?.showTimeline !== false && <a href="#experience" style={{ fontWeight: 500 }}>{t.navExperience}</a>}
+          {data.settings?.showServices !== false && <a href="#services" style={{ fontWeight: 500 }}>{t.navServices}</a>}
           <a href="#portfolio" style={{ fontWeight: 500 }}>{t.navPortfolio}</a>
-          {blog.length > 0 && <a href="#blog" style={{ fontWeight: 500 }}>{t.navBlog}</a>}
+          {data.settings?.showBlog !== false && blog.length > 0 && <a href="#blog" style={{ fontWeight: 500 }}>{t.navBlog}</a>}
           <a href="#contact" style={{ fontWeight: 500 }}>{t.navContact}</a>
         </nav>
 
@@ -161,10 +161,10 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
             }}
           >
             <a href="#about" onClick={() => setMobileMenuOpen(false)}>{t.navAbout}</a>
-            <a href="#experience" onClick={() => setMobileMenuOpen(false)}>{t.navExperience}</a>
-            <a href="#services" onClick={() => setMobileMenuOpen(false)}>{t.navServices}</a>
+            {data.settings?.showTimeline !== false && <a href="#experience" onClick={() => setMobileMenuOpen(false)}>{t.navExperience}</a>}
+            {data.settings?.showServices !== false && <a href="#services" onClick={() => setMobileMenuOpen(false)}>{t.navServices}</a>}
             <a href="#portfolio" onClick={() => setMobileMenuOpen(false)}>{t.navPortfolio}</a>
-            {blog.length > 0 && <a href="#blog" onClick={() => setMobileMenuOpen(false)}>{t.navBlog}</a>}
+            {data.settings?.showBlog !== false && blog.length > 0 && <a href="#blog" onClick={() => setMobileMenuOpen(false)}>{t.navBlog}</a>}
             <a href="#contact" onClick={() => setMobileMenuOpen(false)}>{t.navContact}</a>
           </div>
         </div>
@@ -240,7 +240,12 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
       {/* --- ABOUT & SKILLS SECTION --- */}
       <section className="container section" id="about">
         <h2 className="section-title">{t.aboutTitle}</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px', alignItems: 'start' }} className="about-grid-responsive">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: (data.settings?.showSkills !== false) ? '1fr 1fr' : '1fr',
+          gap: '50px',
+          alignItems: 'start'
+        }} className="about-grid-responsive">
           <div className="glass-card" style={{ height: '100%', textAlign: isRtl ? 'right' : 'left' }}>
             <h3 style={{ marginBottom: '16px', fontSize: '1.5rem' }}>{t.aboutStory}</h3>
             <p style={{ whiteSpace: 'pre-line', color: 'var(--text-secondary)' }}>{getLocVal(about, 'fullBio')}</p>
@@ -261,35 +266,37 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', textAlign: isRtl ? 'right' : 'left' }}>
-            <div className="glass-card">
-              <h3 style={{ marginBottom: '24px', fontSize: '1.5rem' }}>{t.aboutSkills}</h3>
-              
-              {skillCategories.map(cat => (
-                <div key={cat} style={{ marginBottom: '24px' }}>
-                  <h4 style={{ fontSize: '1.1rem', marginBottom: '12px', color: 'var(--accent)' }}>{cat}</h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {skills.filter(s => (s.category || 'General') === cat).map(skill => (
-                      <div key={skill.id}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '4px' }}>
-                          <span>{getLocVal(skill, 'name')}</span>
-                          <span style={{ fontWeight: 600 }}>{skill.percentage}%</span>
+          {data.settings?.showSkills !== false && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', textAlign: isRtl ? 'right' : 'left' }}>
+              <div className="glass-card">
+                <h3 style={{ marginBottom: '24px', fontSize: '1.5rem' }}>{t.aboutSkills}</h3>
+                
+                {skillCategories.map(cat => (
+                  <div key={cat} style={{ marginBottom: '24px' }}>
+                    <h4 style={{ fontSize: '1.1rem', marginBottom: '12px', color: 'var(--accent)' }}>{cat}</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      {skills.filter(s => (s.category || 'General') === cat).map(skill => (
+                        <div key={skill.id}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '4px' }}>
+                            <span>{getLocVal(skill, 'name')}</span>
+                            <span style={{ fontWeight: 600 }}>{skill.percentage}%</span>
+                          </div>
+                          <div style={{ width: '100%', height: '8px', background: 'var(--bg-tertiary)', borderRadius: '4px', overflow: 'hidden' }}>
+                            <div style={{
+                              width: `${skill.percentage}%`, height: '100%',
+                              background: 'linear-gradient(90deg, var(--accent), var(--accent-secondary))',
+                              borderRadius: '4px',
+                              float: isRtl ? 'right' : 'left'
+                            }}></div>
+                          </div>
                         </div>
-                        <div style={{ width: '100%', height: '8px', background: 'var(--bg-tertiary)', borderRadius: '4px', overflow: 'hidden' }}>
-                          <div style={{
-                            width: `${skill.percentage}%`, height: '100%',
-                            background: 'linear-gradient(90deg, var(--accent), var(--accent-secondary))',
-                            borderRadius: '4px',
-                            float: isRtl ? 'right' : 'left'
-                          }}></div>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <style>{`
           @media (max-width: 900px) {
@@ -299,108 +306,112 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
       </section>
 
       {/* --- EXPERIENCE & EDUCATION TIMELINE --- */}
-      <section className="container section" id="experience">
-        <h2 className="section-title">{t.timelineTitle}</h2>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }} className="timeline-grid-responsive">
-          {/* Experience */}
-          <div style={{ textAlign: isRtl ? 'right' : 'left' }}>
-            <h3 style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-              <DynamicIcon name="Briefcase" size={24} className="text-gradient" /> {t.timelineExperience}
-            </h3>
-            <div className="timeline" style={{
-              paddingLeft: isRtl ? '0' : '80px',
-              paddingRight: isRtl ? '80px' : '0'
-            }}>
-              {experience.map(exp => (
-                <div className="timeline-item" key={exp.id} style={{
-                  paddingLeft: isRtl ? '0' : '80px',
-                  paddingRight: isRtl ? '80px' : '0'
-                }}>
-                  <div className="timeline-dot" style={{
-                    left: isRtl ? 'auto' : '20px',
-                    right: isRtl ? '20px' : 'auto'
-                  }}></div>
-                  <div className="glass timeline-card">
-                    <span className="timeline-date">{getLocVal(exp, 'duration')}</span>
-                    <h4 style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{getLocVal(exp, 'role')}</h4>
-                    <h5 style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>{getLocVal(exp, 'company')}</h5>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{getLocVal(exp, 'description')}</p>
+      {data.settings?.showTimeline !== false && (
+        <section className="container section" id="experience">
+          <h2 className="section-title">{t.timelineTitle}</h2>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }} className="timeline-grid-responsive">
+            {/* Experience */}
+            <div style={{ textAlign: isRtl ? 'right' : 'left' }}>
+              <h3 style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <DynamicIcon name="Briefcase" size={24} className="text-gradient" /> {t.timelineExperience}
+              </h3>
+              <div className="timeline" style={{
+                paddingLeft: isRtl ? '0' : '80px',
+                paddingRight: isRtl ? '80px' : '0'
+              }}>
+                {experience.map(exp => (
+                  <div className="timeline-item" key={exp.id} style={{
+                    paddingLeft: isRtl ? '0' : '80px',
+                    paddingRight: isRtl ? '80px' : '0'
+                  }}>
+                    <div className="timeline-dot" style={{
+                      left: isRtl ? 'auto' : '20px',
+                      right: isRtl ? '20px' : 'auto'
+                    }}></div>
+                    <div className="glass timeline-card">
+                      <span className="timeline-date">{getLocVal(exp, 'duration')}</span>
+                      <h4 style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{getLocVal(exp, 'role')}</h4>
+                      <h5 style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>{getLocVal(exp, 'company')}</h5>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{getLocVal(exp, 'description')}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Education */}
-          <div style={{ textAlign: isRtl ? 'right' : 'left' }}>
-            <h3 style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-              <DynamicIcon name="GraduationCap" size={24} className="text-gradient" /> {t.timelineEducation}
-            </h3>
-            <div className="timeline" style={{
-              paddingLeft: isRtl ? '0' : '80px',
-              paddingRight: isRtl ? '80px' : '0'
-            }}>
-              {education.map(edu => (
-                <div className="timeline-item" key={edu.id} style={{
-                  paddingLeft: isRtl ? '0' : '80px',
-                  paddingRight: isRtl ? '80px' : '0'
-                }}>
-                  <div className="timeline-dot" style={{ 
-                    borderColor: 'var(--accent-secondary)',
-                    left: isRtl ? 'auto' : '20px',
-                    right: isRtl ? '20px' : 'auto'
-                  }}></div>
-                  <div className="glass timeline-card">
-                    <span className="timeline-date" style={{ color: 'var(--accent-secondary)' }}>{getLocVal(edu, 'duration')}</span>
-                    <h4 style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{getLocVal(edu, 'degree')}</h4>
-                    <h5 style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>{getLocVal(edu, 'school')}</h5>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{getLocVal(edu, 'description')}</p>
+            {/* Education */}
+            <div style={{ textAlign: isRtl ? 'right' : 'left' }}>
+              <h3 style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <DynamicIcon name="GraduationCap" size={24} className="text-gradient" /> {t.timelineEducation}
+              </h3>
+              <div className="timeline" style={{
+                paddingLeft: isRtl ? '0' : '80px',
+                paddingRight: isRtl ? '80px' : '0'
+              }}>
+                {education.map(edu => (
+                  <div className="timeline-item" key={edu.id} style={{
+                    paddingLeft: isRtl ? '0' : '80px',
+                    paddingRight: isRtl ? '80px' : '0'
+                  }}>
+                    <div className="timeline-dot" style={{ 
+                      borderColor: 'var(--accent-secondary)',
+                      left: isRtl ? 'auto' : '20px',
+                      right: isRtl ? '20px' : 'auto'
+                    }}></div>
+                    <div className="glass timeline-card">
+                      <span className="timeline-date" style={{ color: 'var(--accent-secondary)' }}>{getLocVal(edu, 'duration')}</span>
+                      <h4 style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{getLocVal(edu, 'degree')}</h4>
+                      <h5 style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>{getLocVal(edu, 'school')}</h5>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{getLocVal(edu, 'description')}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        {/* CSS override for timelines mirror direction spacing */}
-        <style>{`
-          .timeline::before {
-            left: ${isRtl ? 'auto' : '31px'};
-            right: ${isRtl ? '31px' : 'auto'};
-          }
-          @media (max-width: 900px) {
-            .timeline-grid-responsive { grid-template-columns: 1fr !important; gap: 40px !important; }
-          }
-        `}</style>
-      </section>
+          {/* CSS override for timelines mirror direction spacing */}
+          <style>{`
+            .timeline::before {
+              left: ${isRtl ? 'auto' : '31px'};
+              right: ${isRtl ? '31px' : 'auto'};
+            }
+            @media (max-width: 900px) {
+              .timeline-grid-responsive { grid-template-columns: 1fr !important; gap: 40px !important; }
+            }
+          `}</style>
+        </section>
+      )}
 
       {/* --- SERVICES SECTION --- */}
-      <section className="container section" id="services">
-        <h2 className="section-title">{t.servicesTitle}</h2>
-        <div className="services-grid">
-          {services.map(ser => (
-            <div className="glass-card" key={ser.id} style={{ display: 'flex', flexDirection: 'column', textAlign: isRtl ? 'right' : 'left' }}>
-              <div style={{
-                width: '56px', height: '56px', borderRadius: '16px',
-                background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
-                color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: '24px',
-                alignSelf: isRtl ? 'flex-start' : 'flex-start'
-              }}>
-                <DynamicIcon name={ser.icon} size={28} />
+      {data.settings?.showServices !== false && (
+        <section className="container section" id="services">
+          <h2 className="section-title">{t.servicesTitle}</h2>
+          <div className="services-grid">
+            {services.map(ser => (
+              <div className="glass-card" key={ser.id} style={{ display: 'flex', flexDirection: 'column', textAlign: isRtl ? 'right' : 'left' }}>
+                <div style={{
+                  width: '56px', height: '56px', borderRadius: '16px',
+                  background: 'linear-gradient(135deg, var(--accent), var(--accent-secondary))',
+                  color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '24px',
+                  alignSelf: isRtl ? 'flex-start' : 'flex-start'
+                }}>
+                  <DynamicIcon name={ser.icon} size={28} />
+                </div>
+                <h3 style={{ fontSize: '1.3rem', marginBottom: '12px' }}>{getLocVal(ser, 'title')}</h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', flexGrow: 1, marginBottom: '24px' }}>
+                  {getLocVal(ser, 'description')}
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--card-border)', paddingTop: '16px' }}>
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>{t.servicesStartFrom}</span>
+                  <span style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent)' }}>{ser.price}</span>
+                </div>
               </div>
-              <h3 style={{ fontSize: '1.3rem', marginBottom: '12px' }}>{getLocVal(ser, 'title')}</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', flexGrow: 1, marginBottom: '24px' }}>
-                {getLocVal(ser, 'description')}
-              </p>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--card-border)', paddingTop: '16px' }}>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>{t.servicesStartFrom}</span>
-                <span style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--accent)' }}>{ser.price}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* --- PORTFOLIO SECTION --- */}
       <section className="container section" id="portfolio">
@@ -471,7 +482,7 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
       </section>
 
       {/* --- BLOG SECTION --- */}
-      {blog.length > 0 && (
+      {data.settings?.showBlog !== false && blog.length > 0 && (
         <section className="container section" id="blog">
           <h2 className="section-title">{t.blogTitle}</h2>
           <div className="blog-grid">
@@ -532,6 +543,19 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
                   <a href={`tel:${personal.phone}`} style={{ fontWeight: 600 }}>{personal.phone}</a>
                 </div>
               </div>
+              {personal.socialLinks?.whatsapp && (
+                <div className="contact-info-item">
+                  <div className="contact-info-icon" style={{ background: 'rgba(37, 211, 102, 0.1)', color: '#25D366' }}>
+                    <DynamicIcon name="Whatsapp" size={20} />
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block' }}>WhatsApp</span>
+                    <a href={personal.socialLinks.whatsapp} target="_blank" rel="noreferrer" style={{ fontWeight: 600, color: '#25D366' }}>
+                      {isRtl ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}
+                    </a>
+                  </div>
+                </div>
+              )}
               <div className="contact-info-item">
                 <div className="contact-info-icon">
                   <DynamicIcon name="MapPin" size={20} />

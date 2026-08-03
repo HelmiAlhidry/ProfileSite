@@ -74,7 +74,11 @@ const initSqlDb = async () => {
         language VARCHAR(5) DEFAULT 'en',
         passcode_hash VARCHAR(64) DEFAULT '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
         accent_color VARCHAR(10) DEFAULT '#6366f1',
-        accent_secondary_color VARCHAR(10) DEFAULT '#ec4899'
+        accent_secondary_color VARCHAR(10) DEFAULT '#ec4899',
+        show_skills BOOLEAN DEFAULT TRUE,
+        show_timeline BOOLEAN DEFAULT TRUE,
+        show_services BOOLEAN DEFAULT TRUE,
+        show_blog BOOLEAN DEFAULT TRUE
       )
     `);
 
@@ -93,7 +97,11 @@ const initSqlDb = async () => {
         github VARCHAR(255),
         linkedin VARCHAR(255),
         twitter VARCHAR(255),
-        email VARCHAR(255)
+        whatsapp VARCHAR(255),
+        email VARCHAR(255),
+        phone VARCHAR(50),
+        location_en VARCHAR(255),
+        location_ar VARCHAR(255)
       )
     `);
 
@@ -194,6 +202,17 @@ const initSqlDb = async () => {
       )
     `);
 
+    // Run migrations dynamically to support updates on pre-existing tables
+    await client.query('ALTER TABLE settings ADD COLUMN IF NOT EXISTS show_skills BOOLEAN DEFAULT TRUE');
+    await client.query('ALTER TABLE settings ADD COLUMN IF NOT EXISTS show_timeline BOOLEAN DEFAULT TRUE');
+    await client.query('ALTER TABLE settings ADD COLUMN IF NOT EXISTS show_services BOOLEAN DEFAULT TRUE');
+    await client.query('ALTER TABLE settings ADD COLUMN IF NOT EXISTS show_blog BOOLEAN DEFAULT TRUE');
+
+    await client.query('ALTER TABLE personal_profile ADD COLUMN IF NOT EXISTS whatsapp VARCHAR(255)');
+    await client.query('ALTER TABLE personal_profile ADD COLUMN IF NOT EXISTS phone VARCHAR(50)');
+    await client.query('ALTER TABLE personal_profile ADD COLUMN IF NOT EXISTS location_en VARCHAR(255)');
+    await client.query('ALTER TABLE personal_profile ADD COLUMN IF NOT EXISTS location_ar VARCHAR(255)');
+
     // Seed default data if settings table is empty
     const checkSettings = await client.query('SELECT COUNT(*) FROM settings');
     if (parseInt(checkSettings.rows[0].count) === 0) {
@@ -201,21 +220,25 @@ const initSqlDb = async () => {
       
       // Insert Settings
       await client.query(`
-        INSERT INTO settings (id, theme, language, passcode_hash, accent_color, accent_secondary_color)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO settings (id, theme, language, passcode_hash, accent_color, accent_secondary_color, show_skills, show_timeline, show_services, show_blog)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       `, [
         'global',
         defaultData.settings.theme || 'dark',
         defaultData.settings.language || 'en',
         defaultData.settings.passcodeHash || '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
         defaultData.settings.accentColor || '#6366f1',
-        defaultData.settings.accentSecondaryColor || '#ec4899'
+        defaultData.settings.accentSecondaryColor || '#ec4899',
+        defaultData.settings.showSkills !== false,
+        defaultData.settings.showTimeline !== false,
+        defaultData.settings.showServices !== false,
+        defaultData.settings.showBlog !== false
       ]);
 
       // Insert Personal Profile
       await client.query(`
-        INSERT INTO personal_profile (id, name_en, name_ar, title_en, title_ar, bio_en, bio_ar, image, cv_url, github, linkedin, twitter, email)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        INSERT INTO personal_profile (id, name_en, name_ar, title_en, title_ar, bio_en, bio_ar, image, cv_url, github, linkedin, twitter, whatsapp, email, phone, location_en, location_ar)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
       `, [
         'personal',
         defaultData.personal.nameEn,
@@ -229,7 +252,11 @@ const initSqlDb = async () => {
         defaultData.personal.socialLinks?.github || '',
         defaultData.personal.socialLinks?.linkedin || '',
         defaultData.personal.socialLinks?.twitter || '',
-        defaultData.personal.socialLinks?.email || ''
+        defaultData.personal.socialLinks?.whatsapp || '',
+        defaultData.personal.email || '',
+        defaultData.personal.phone || '',
+        defaultData.personal.locationEn || '',
+        defaultData.personal.locationAr || ''
       ]);
 
       // Insert About Profile
@@ -348,10 +375,14 @@ const getSqlData = async () => {
         bioAr: personalRow.bio_ar || '',
         avatar: personalRow.image || '',
         cvUrl: personalRow.cv_url || '',
+        phone: personalRow.phone || '',
+        locationEn: personalRow.location_en || '',
+        locationAr: personalRow.location_ar || '',
         socialLinks: {
           github: personalRow.github || '',
           linkedin: personalRow.linkedin || '',
           twitter: personalRow.twitter || '',
+          whatsapp: personalRow.whatsapp || '',
           email: personalRow.email || ''
         }
       },
@@ -442,7 +473,11 @@ const getSqlData = async () => {
         language: settingsRow.language || 'en',
         passcodeHash: settingsRow.passcode_hash || '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
         accentColor: settingsRow.accent_color || '#6366f1',
-        accentSecondaryColor: settingsRow.accent_secondary_color || '#ec4899'
+        accentSecondaryColor: settingsRow.accent_secondary_color || '#ec4899',
+        showSkills: settingsRow.show_skills !== false,
+        showTimeline: settingsRow.show_timeline !== false,
+        showServices: settingsRow.show_services !== false,
+        showBlog: settingsRow.show_blog !== false
       }
     };
 
@@ -464,28 +499,36 @@ const saveSqlData = async (data) => {
     // 1. Settings Upsert
     if (data.settings) {
       await client.query(`
-        INSERT INTO settings (id, theme, language, passcode_hash, accent_color, accent_secondary_color)
-        VALUES ('global', $1, $2, $3, $4, $5)
+        INSERT INTO settings (id, theme, language, passcode_hash, accent_color, accent_secondary_color, show_skills, show_timeline, show_services, show_blog)
+        VALUES ('global', $1, $2, $3, $4, $5, $6, $7, $8, $9)
         ON CONFLICT (id) DO UPDATE SET
           theme = EXCLUDED.theme,
           language = EXCLUDED.language,
           passcode_hash = EXCLUDED.passcode_hash,
           accent_color = EXCLUDED.accent_color,
-          accent_secondary_color = EXCLUDED.accent_secondary_color
+          accent_secondary_color = EXCLUDED.accent_secondary_color,
+          show_skills = EXCLUDED.show_skills,
+          show_timeline = EXCLUDED.show_timeline,
+          show_services = EXCLUDED.show_services,
+          show_blog = EXCLUDED.show_blog
       `, [
         data.settings.theme || 'dark',
         data.settings.language || 'en',
         data.settings.passcodeHash || '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9',
         data.settings.accentColor || '#6366f1',
-        data.settings.accentSecondaryColor || '#ec4899'
+        data.settings.accentSecondaryColor || '#ec4899',
+        data.settings.showSkills !== false,
+        data.settings.showTimeline !== false,
+        data.settings.showServices !== false,
+        data.settings.showBlog !== false
       ]);
     }
 
     // 2. Personal Upsert
     if (data.personal) {
       await client.query(`
-        INSERT INTO personal_profile (id, name_en, name_ar, title_en, title_ar, bio_en, bio_ar, image, cv_url, github, linkedin, twitter, email)
-        VALUES ('personal', $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+        INSERT INTO personal_profile (id, name_en, name_ar, title_en, title_ar, bio_en, bio_ar, image, cv_url, github, linkedin, twitter, whatsapp, email, phone, location_en, location_ar)
+        VALUES ('personal', $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
         ON CONFLICT (id) DO UPDATE SET
           name_en = EXCLUDED.name_en,
           name_ar = EXCLUDED.name_ar,
@@ -498,7 +541,11 @@ const saveSqlData = async (data) => {
           github = EXCLUDED.github,
           linkedin = EXCLUDED.linkedin,
           twitter = EXCLUDED.twitter,
-          email = EXCLUDED.email
+          whatsapp = EXCLUDED.whatsapp,
+          email = EXCLUDED.email,
+          phone = EXCLUDED.phone,
+          location_en = EXCLUDED.location_en,
+          location_ar = EXCLUDED.location_ar
       `, [
         data.personal.nameEn,
         data.personal.nameAr,
@@ -511,7 +558,11 @@ const saveSqlData = async (data) => {
         data.personal.socialLinks?.github || '',
         data.personal.socialLinks?.linkedin || '',
         data.personal.socialLinks?.twitter || '',
-        data.personal.socialLinks?.email || ''
+        data.personal.socialLinks?.whatsapp || '',
+        data.personal.email || '',
+        data.personal.phone || '',
+        data.personal.locationEn || '',
+        data.personal.locationAr || ''
       ]);
     }
 

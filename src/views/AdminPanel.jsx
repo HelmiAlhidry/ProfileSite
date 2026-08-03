@@ -23,15 +23,41 @@ export const AdminPanel = ({ data, onSave, onReset, onRefreshData }) => {
   const [customProjCatAr, setCustomProjCatAr] = useState('');
   const [isCustomProjCategory, setIsCustomProjCategory] = useState(false);
 
+  const ensureDefaults = (dataObj) => {
+    if (!dataObj) return dataObj;
+    const copy = JSON.parse(JSON.stringify(dataObj));
+    if (!copy.personal) copy.personal = {};
+    if (!copy.personal.socialLinks) copy.personal.socialLinks = {};
+    
+    const socialKeys = ['github', 'linkedin', 'twitter', 'whatsapp', 'dribbble'];
+    socialKeys.forEach(k => {
+      if (!(k in copy.personal.socialLinks)) {
+        copy.personal.socialLinks[k] = '';
+      }
+    });
+
+    if (copy.personal.phone === undefined) copy.personal.phone = '';
+    if (copy.personal.locationEn === undefined) copy.personal.locationEn = '';
+    if (copy.personal.locationAr === undefined) copy.personal.locationAr = '';
+
+    if (!copy.settings) copy.settings = {};
+    if (copy.settings.showSkills === undefined) copy.settings.showSkills = true;
+    if (copy.settings.showTimeline === undefined) copy.settings.showTimeline = true;
+    if (copy.settings.showServices === undefined) copy.settings.showServices = true;
+    if (copy.settings.showBlog === undefined) copy.settings.showBlog = true;
+
+    return copy;
+  };
+
   // Local data copy
-  const [editedData, setEditedData] = useState(JSON.parse(JSON.stringify(data)));
+  const [editedData, setEditedData] = useState(ensureDefaults(data));
   const [saveStatus, setSaveStatus] = useState(''); // 'saving', 'saved', 'error'
   const [saveError, setSaveError] = useState('');
   const [newPasscode, setNewPasscode] = useState('');
 
   // Sync edits if parent data updates
   useEffect(() => {
-    setEditedData(JSON.parse(JSON.stringify(data)));
+    setEditedData(ensureDefaults(data));
   }, [data]);
 
   // Derive dynamic categories from data copy
@@ -1779,6 +1805,83 @@ export const AdminPanel = ({ data, onSave, onReset, onRefreshData }) => {
                     </div>
                   </div>
                   <small style={{ color: 'var(--text-muted)' }}>Set your own custom branding colors.</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass admin-card">
+              <h2 style={{ fontSize: '1.3rem', marginBottom: '20px' }}>Section Visibility Controls</h2>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', fontSize: '0.95rem' }}>
+                Toggle which sections are visible to visitors on the public portfolio website.
+              </p>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', rowGap: '16px' }} className="admin-grid-2">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <input 
+                    type="checkbox" 
+                    id="toggle-skills"
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                    checked={editedData.settings.showSkills !== false}
+                    onChange={(e) => {
+                      const updated = { ...editedData };
+                      updated.settings.showSkills = e.target.checked;
+                      setEditedData(updated);
+                    }}
+                  />
+                  <label htmlFor="toggle-skills" style={{ fontSize: '0.95rem', cursor: 'pointer', userSelect: 'none', fontWeight: 500 }}>
+                    Show Skills Metric Section
+                  </label>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <input 
+                    type="checkbox" 
+                    id="toggle-timeline"
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                    checked={editedData.settings.showTimeline !== false}
+                    onChange={(e) => {
+                      const updated = { ...editedData };
+                      updated.settings.showTimeline = e.target.checked;
+                      setEditedData(updated);
+                    }}
+                  />
+                  <label htmlFor="toggle-timeline" style={{ fontSize: '0.95rem', cursor: 'pointer', userSelect: 'none', fontWeight: 500 }}>
+                    Show Experience & Education Timeline
+                  </label>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <input 
+                    type="checkbox" 
+                    id="toggle-services"
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                    checked={editedData.settings.showServices !== false}
+                    onChange={(e) => {
+                      const updated = { ...editedData };
+                      updated.settings.showServices = e.target.checked;
+                      setEditedData(updated);
+                    }}
+                  />
+                  <label htmlFor="toggle-services" style={{ fontSize: '0.95rem', cursor: 'pointer', userSelect: 'none', fontWeight: 500 }}>
+                    Show Services & Pricing Section
+                  </label>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <input 
+                    type="checkbox" 
+                    id="toggle-blog"
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                    checked={editedData.settings.showBlog !== false}
+                    onChange={(e) => {
+                      const updated = { ...editedData };
+                      updated.settings.showBlog = e.target.checked;
+                      setEditedData(updated);
+                    }}
+                  />
+                  <label htmlFor="toggle-blog" style={{ fontSize: '0.95rem', cursor: 'pointer', userSelect: 'none', fontWeight: 500 }}>
+                    Show Blog Articles Section
+                  </label>
                 </div>
               </div>
             </div>
