@@ -715,7 +715,37 @@ const saveData = async (data) => {
   }
 };
 
+const testDbConnection = async () => {
+  if (!usePostgres) {
+    return {
+      connected: false,
+      usePostgres: false,
+      error: 'PostgreSQL is disabled; using JSON file fallback.'
+    };
+  }
+  try {
+    const client = await pool.connect();
+    try {
+      const res = await client.query('SELECT 1 + 1 AS result');
+      return {
+        connected: true,
+        usePostgres: true,
+        result: res.rows[0].result
+      };
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    return {
+      connected: false,
+      usePostgres: true,
+      error: error.message || String(error)
+    };
+  }
+};
+
 module.exports = {
   getData,
-  saveData
+  saveData,
+  testDbConnection
 };

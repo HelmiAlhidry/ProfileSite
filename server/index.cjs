@@ -67,6 +67,16 @@ const requireAuth = (req, res, next) => {
 
 /* --- API ENDPOINTS --- */
 
+// 0. Database Connection Diagnostic Status
+app.get('/api/db-status', async (req, res) => {
+  try {
+    const status = await db.testDbConnection();
+    res.json(status);
+  } catch (error) {
+    res.status(500).json({ connected: false, error: error.message || String(error) });
+  }
+});
+
 // 1. Fetch public profile details (Sanitized for security)
 app.get('/api/data', async (req, res) => {
   const rawData = await db.getData();
