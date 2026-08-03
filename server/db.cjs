@@ -51,6 +51,7 @@ if (usePostgres) {
 
 // Ensure database folder and file exist (for JSON file fallback)
 const initDb = () => {
+  if (process.env.VERCEL) return; // Prevent filesystem writes on Vercel serverless runtime
   if (!fs.existsSync(DB_DIR)) {
     fs.mkdirSync(DB_DIR, { recursive: true });
   }
@@ -679,6 +680,9 @@ const getData = async () => {
   if (usePostgres) {
     return await getSqlData();
   }
+  if (process.env.VERCEL) {
+    return defaultData; // Safe fallback on Vercel read-only system
+  }
   // Local JSON File Fallback
   try {
     initDb();
@@ -693,6 +697,10 @@ const getData = async () => {
 const saveData = async (data) => {
   if (usePostgres) {
     return await saveSqlData(data);
+  }
+  if (process.env.VERCEL) {
+    console.warn('Persistent local database save is disabled in Vercel serverless environment.');
+    return true; // Bypass write EROFS error on Vercel
   }
   // Local JSON File Fallback
   try {
