@@ -66,11 +66,11 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
     <div style={{ position: 'relative', minHeight: '100vh', direction: isRtl ? 'rtl' : 'ltr' }}>
       
       {/* --- Sticky Navigation Bar --- */}
-      <header className="glass" style={{
+      <header className="glass site-header" style={{
         position: 'sticky', top: 0, zIndex: 100,
         margin: '16px auto', width: 'calc(100% - 32px)', maxWidth: 'var(--container-width)',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '16px 32px', borderRadius: 'var(--border-radius-md)'
+        borderRadius: 'var(--border-radius-md)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{
@@ -126,7 +126,7 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
           </button>
 
           {/* Admin link */}
-          <Link to="/admin" className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
+          <Link to="/admin" className="btn btn-secondary desktop-only-btn" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
             <DynamicIcon name="LogIn" size={16} /> {t.adminAccess}
           </Link>
 
@@ -166,6 +166,12 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
             <a href="#portfolio" onClick={() => setMobileMenuOpen(false)}>{t.navPortfolio}</a>
             {data.settings?.showBlog !== false && blog.length > 0 && <a href="#blog" onClick={() => setMobileMenuOpen(false)}>{t.navBlog}</a>}
             <a href="#contact" onClick={() => setMobileMenuOpen(false)}>{t.navContact}</a>
+            
+            <div style={{ height: '1px', background: 'var(--card-border)', margin: '4px 0' }}></div>
+            
+            <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary" style={{ padding: '10px 16px', justifyContent: 'center', width: '100%', fontSize: '0.95rem' }}>
+              <DynamicIcon name="LogIn" size={16} /> {t.adminAccess}
+            </Link>
           </div>
         </div>
       )}
@@ -316,19 +322,10 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
               <h3 style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                 <DynamicIcon name="Briefcase" size={24} className="text-gradient" /> {t.timelineExperience}
               </h3>
-              <div className="timeline" style={{
-                paddingLeft: isRtl ? '0' : '80px',
-                paddingRight: isRtl ? '80px' : '0'
-              }}>
+              <div className="timeline">
                 {experience.map(exp => (
-                  <div className="timeline-item" key={exp.id} style={{
-                    paddingLeft: isRtl ? '0' : '80px',
-                    paddingRight: isRtl ? '80px' : '0'
-                  }}>
-                    <div className="timeline-dot" style={{
-                      left: isRtl ? 'auto' : '20px',
-                      right: isRtl ? '20px' : 'auto'
-                    }}></div>
+                  <div className="timeline-item" key={exp.id}>
+                    <div className="timeline-dot"></div>
                     <div className="glass timeline-card">
                       <span className="timeline-date">{getLocVal(exp, 'duration')}</span>
                       <h4 style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{getLocVal(exp, 'role')}</h4>
@@ -345,20 +342,10 @@ export const PublicSite = ({ data, onSendMessage, theme, toggleTheme, lang = 'en
               <h3 style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                 <DynamicIcon name="GraduationCap" size={24} className="text-gradient" /> {t.timelineEducation}
               </h3>
-              <div className="timeline" style={{
-                paddingLeft: isRtl ? '0' : '80px',
-                paddingRight: isRtl ? '80px' : '0'
-              }}>
+              <div className="timeline">
                 {education.map(edu => (
-                  <div className="timeline-item" key={edu.id} style={{
-                    paddingLeft: isRtl ? '0' : '80px',
-                    paddingRight: isRtl ? '80px' : '0'
-                  }}>
-                    <div className="timeline-dot" style={{ 
-                      borderColor: 'var(--accent-secondary)',
-                      left: isRtl ? 'auto' : '20px',
-                      right: isRtl ? '20px' : 'auto'
-                    }}></div>
+                  <div className="timeline-item" key={edu.id}>
+                    <div className="timeline-dot" style={{ borderColor: 'var(--accent-secondary)' }}></div>
                     <div className="glass timeline-card">
                       <span className="timeline-date" style={{ color: 'var(--accent-secondary)' }}>{getLocVal(edu, 'duration')}</span>
                       <h4 style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{getLocVal(edu, 'degree')}</h4>

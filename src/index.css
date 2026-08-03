@@ -337,7 +337,7 @@ input, textarea, p, h1, h2, h3, h4, h5, h6, li {
 /* --- Services Grid --- */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 30px;
 }
 
@@ -363,7 +363,7 @@ input, textarea, p, h1, h2, h3, h4, h5, h6, li {
 }
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
 }
 .portfolio-card {
@@ -412,7 +412,7 @@ input, textarea, p, h1, h2, h3, h4, h5, h6, li {
 /* --- Blog Styles --- */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 30px;
 }
 .blog-card {
@@ -650,12 +650,41 @@ input, textarea, p, h1, h2, h3, h4, h5, h6, li {
   background: var(--bg-secondary);
 }
 
+/* --- Site Header custom padding --- */
+.site-header {
+  padding: 20px 40px !important;
+}
+@media (max-width: 768px) {
+  .site-header {
+    padding: 16px 20px !important;
+  }
+  .desktop-only-btn {
+    display: none !important;
+  }
+}
+
+/* --- RTL Timeline Rules --- */
+[dir='rtl'] .timeline::before {
+  left: auto;
+  right: 31px;
+}
+[dir='rtl'] .timeline-item {
+  padding-left: 0;
+  padding-right: 80px;
+}
+[dir='rtl'] .timeline-dot {
+  left: auto;
+  right: 20px;
+}
+
 /* --- Responsive Layout adjustments --- */
 @media (max-width: 1024px) {
   .hero-wrapper {
     grid-template-columns: 1fr;
     text-align: center;
     padding-top: 40px;
+    min-height: auto;
+    padding-bottom: 40px;
   }
   .hero-left p {
     margin: 0 auto 32px;
@@ -692,5 +721,45 @@ input, textarea, p, h1, h2, h3, h4, h5, h6, li {
   }
   .admin-grid-2, .admin-grid-3 {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Extra small mobile devices optimization */
+@media (max-width: 600px) {
+  .hero-left h1 {
+    font-size: 2rem;
+  }
+  .hero-avatar-container {
+    width: 200px;
+    height: 200px;
+  }
+  
+  /* Timeline responsive squish fix */
+  .timeline::before {
+    left: 15px !important;
+    right: auto !important;
+  }
+  .timeline-item {
+    padding-left: 40px !important;
+    padding-right: 0 !important;
+    margin-bottom: 30px;
+  }
+  .timeline-dot {
+    left: 4px !important;
+    right: auto !important;
+  }
+  
+  /* RTL Timeline squish fix */
+  [dir='rtl'] .timeline::before {
+    right: 15px !important;
+    left: auto !important;
+  }
+  [dir='rtl'] .timeline-item {
+    padding-right: 40px !important;
+    padding-left: 0 !important;
+  }
+  [dir='rtl'] .timeline-dot {
+    right: 4px !important;
+    left: auto !important;
   }
 }
