@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PublicSite from './views/PublicSite';
 import AdminPanel from './views/AdminPanel';
 import { fetchSiteData, saveSiteData, sendContactMessage, resetToTemplate } from './utils/api';
+import defaultData from './data/defaultData.json';
 
 const hexToRgb = (hex) => {
   if (!hex) return '99, 102, 241';
@@ -47,7 +48,22 @@ function App() {
       // Apply accents
       applyAccents(data);
     } catch (error) {
-      console.error('Failed to load portfolio database:', error);
+      console.error('Failed to load portfolio database, falling back to local defaults:', error);
+      // Graceful fallback to default data to prevent loading screen freezing
+      const fallback = defaultData;
+      setSiteData(fallback);
+      
+      const visitorTheme = localStorage.getItem('visitor_theme');
+      const activeTheme = visitorTheme || fallback.settings?.theme || 'dark';
+      setTheme(activeTheme);
+      document.documentElement.setAttribute('data-theme', activeTheme);
+      
+      const activeLang = fallback.settings?.language || 'en';
+      setCurrentLang(activeLang);
+      document.documentElement.setAttribute('dir', activeLang === 'ar' ? 'rtl' : 'ltr');
+      document.documentElement.setAttribute('lang', activeLang);
+      
+      applyAccents(fallback);
     }
   };
 
